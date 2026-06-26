@@ -1,4 +1,4 @@
-const APP_VERSION = 'v17.0.0';
+const APP_VERSION = 'v22.0.0';
 const CACHE_NAME = `ptw2027-secure-exam-${APP_VERSION}`;
 const APP_SHELL = [
   './',
@@ -36,6 +36,24 @@ function isNavigationRequest(request) {
 self.addEventListener('fetch', event => {
   const { request } = event;
   if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+  const isFreshResource = url.pathname.endsWith('/version.json') || url.pathname.endsWith('/service-worker.js') || url.pathname.endsWith('/manifest.webmanifest');
+
+  if (isFreshResource) {
+    event.respondWith(
+      fetch(request, { cache: 'no-store' })
+        .then(response => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, copy)).catch(() => undefined);
+          }
+          return response;
+        })
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
 
   if (isNavigationRequest(request)) {
     event.respondWith(
