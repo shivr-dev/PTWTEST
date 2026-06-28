@@ -1,12 +1,12 @@
-const APP_VERSION = 'v35.1.0';
+const APP_VERSION = 'v36.7.0';
 const CACHE_NAME = `ptw2027-secure-exam-${APP_VERSION}`;
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './version.json',
-  './assets/index-PTWv35-polished.js',
-  './assets/index-PTWv35-polished.css',
+  './assets/index-PTWv36-7.js',
+  './assets/index-PTWv36-7.css',
   './ptw-icon-192.png',
   './ptw-icon-512.png',
 ];

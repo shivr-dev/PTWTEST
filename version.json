@@ -1,1 +1,5 @@
-{"version":"v35.1.0","name":"PTW 2027 Browser Secure","build":"2026-06-28-v35-polish"}
+{
+  "version": "v36.7.0",
+  "channel": "github-pages",
+  "updatedAt": "2026-06-28T15:20:00Z"
+}
