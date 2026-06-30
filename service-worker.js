@@ -1,14 +1,21 @@
-const APP_VERSION = 'v37.0.0';
+const APP_VERSION = 'v38.1.0';
 const CACHE_NAME = `ptw2027-secure-exam-${APP_VERSION}`;
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './version.json',
-  './assets/index-PTWv37.js',
-  './assets/index-PTWv37.css',
+  './score-report-export.html',
+  './certificate-export.html',
+  './ptw-report-launcher.js',
+  './ptw-v38-official-verify.js',
+  './ptw-v38-1-verify-code.js',
+  './ptw-v38-fixes.css',
+  './assets/index-PTWv38.js',
+  './assets/index-PTWv38.css',
   './ptw-icon-192.png',
   './ptw-icon-512.png',
+  './ptw-official-score-qr.png',
 ];
 
 self.addEventListener('install', event => {
@@ -63,14 +70,15 @@ self.addEventListener('fetch', event => {
   }
 
   if (isNavigationRequest(request)) {
+    const fallbackPage = url.pathname.endsWith('/score-report-export.html') ? './score-report-export.html' : (url.pathname.endsWith('/certificate-export.html') ? './certificate-export.html' : './index.html');
     event.respondWith(
       fetch(request, { cache: 'no-store' })
         .then(response => {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy)).catch(() => undefined);
+          caches.open(CACHE_NAME).then(cache => cache.put(fallbackPage, copy)).catch(() => undefined);
           return response;
         })
-        .catch(() => caches.match('./index.html'))
+        .catch(() => caches.match(fallbackPage))
     );
     return;
   }
